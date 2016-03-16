@@ -63,6 +63,9 @@ public class PtrFrameLayout extends ViewGroup {
     private boolean mDisableWhenHorizontalMove = false;
     private int mFlag = 0x00;
 
+    private int mMaxHeaderMove = 9999;   //默认无限制
+    private int mMaxFooterMove = 9999;
+
     // disable when detect moving horizontally
     private boolean mPreventForHorizontal = false;
 
@@ -506,6 +509,14 @@ public class PtrFrameLayout extends ViewGroup {
         movePos(deltaY);
     }
 
+
+    public void setMaxHeaderMove(int maxMovePx){
+        mMaxHeaderMove = maxMovePx;
+    }
+
+    public void setMaxFooterMove(int maxMovePx){
+        mMaxFooterMove = maxMovePx;
+    }
     /**
      * if deltaY > 0, move the content down
      *
@@ -521,6 +532,10 @@ public class PtrFrameLayout extends ViewGroup {
         }
 
         int to = mPtrIndicator.getCurrentPosY() + (int) deltaY;
+        int maxMove = mPtrIndicator.isHeader() ? mMaxHeaderMove : mMaxFooterMove;
+        if(to > maxMove){
+            to = maxMove;
+        }
 
         // over top
         if (mPtrIndicator.willOverTop(to)) {
@@ -530,7 +545,11 @@ public class PtrFrameLayout extends ViewGroup {
             to = PtrIndicator.POS_START;
         }
         mPtrIndicator.setCurrentPos(to);
-        int change = to - mPtrIndicator.getLastPosY();
+
+        int change = (to - mPtrIndicator.getLastPosY()) *(1 - to / maxMove);
+        if(DEBUG) {
+            PtrCLog.d(LOG_TAG, String.format("to %d, lastPos %d, maxMove %d, rate %s, change %d", to, mPtrIndicator.getLastPosY(), maxMove, ""+(1-1.0*to/maxMove), change));
+        }
         updatePos(mPtrIndicator.isHeader() ? change : -change);
     }
 

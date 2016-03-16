@@ -54,8 +54,8 @@ public class WithListView extends TitleBaseFragment {
         mAdapter = new ListViewDataAdapter<JsonData>();
         mAdapter.setViewHolderClass(this, ViewHolder.class);
         listView.setAdapter(mAdapter);
-
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
+        mPtrFrame.setMaxHeaderMove(200);
         mPtrFrame.setLastUpdateTimeRelateObject(this);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
