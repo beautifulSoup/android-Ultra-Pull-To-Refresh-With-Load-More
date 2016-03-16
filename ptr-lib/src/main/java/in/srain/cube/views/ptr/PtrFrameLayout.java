@@ -548,7 +548,7 @@ public class PtrFrameLayout extends ViewGroup {
 
         int change = (to - mPtrIndicator.getLastPosY()) *(1 - to / maxMove);
         if(DEBUG) {
-            PtrCLog.d(LOG_TAG, String.format("to %d, lastPos %d, maxMove %d, rate %s, change %d", to, mPtrIndicator.getLastPosY(), maxMove, ""+(1-1.0*to/maxMove), change));
+            //PtrCLog.d(LOG_TAG, String.format("to %d, lastPos %d, maxMove %d, rate %s, change %d", to, mPtrIndicator.getLastPosY(), maxMove, ""+(1-1.0*to/maxMove), change));
         }
         updatePos(mPtrIndicator.isHeader() ? change : -change);
     }
